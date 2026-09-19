@@ -1,12 +1,14 @@
 # RLCD Wetterstation
 
-Ein ESP32-S3-basiertes Wetter- und Raumklima-Dashboard auf einem Waveshare 4.2" RLCD, das aktuelle Außenwetterdaten und Innenraum-Sensordaten anzeigt.
+Ein ESP32-S3-basiertes Wetter- und Raumklima-Dashboard auf einem Waveshare 4.2" RLCD (Sharp Memory Display), das aktuelle Außenwetterdaten und Innenraum-Sensordaten anzeigt.
 
 ![alt text](Main_screen.jpeg) ![alt text](Inverted_main_screen.jpeg) ![alt text](Backside_with_temp:humidity_sensor.jpeg)
 
+
+
 ## Motivation
 
-Das Projekt entstand aus dem Wunsch, ein energieeffizientes, always-on Info-Display für den Schreibtisch zu bauen, das auf einen Blick Wetter, Uhrzeit und Raumklima zeigt – ohne Smartphone oder PC dafür aufwecken zu müssen. Das RLCD wurde bewusst gewählt, da es (anders als OLED/LCD) auch bei direktem Licht gut lesbar ist und deutlich weniger Strom verbraucht.
+Das Projekt entstand aus dem Wunsch, ein energieeffizientes, always-on Info-Display für den Schreibtisch zu bauen, das auf einen Blick Wetter, Uhrzeit und Raumklima zeigt – ohne Smartphone oder PC dafür aufwecken zu müssen. Das reflektive RLCD (Reflective LCD) wurde bewusst gewählt, da es ohne Backlight auskommt, Umgebungslicht nutzt und dadurch auch bei direktem Licht gut lesbar ist und deutlich weniger Strom zieht als ein klassisches OLED/LCD.
 
 ## Tech Stack
 
@@ -29,7 +31,7 @@ Das Projekt entstand aus dem Wunsch, ein energieeffizientes, always-on Info-Disp
 
 ## Was ich dabei gelernt habe
 
-- Wie man mit `GFXcanvas1` und externen ays arbeitet (kein natives partielles Refresh – jeder Frame ist ein Vollbild-Transfer)
+- Wie man mit `GFXcanvas1` und einem RLCD (Reflective LCD, ST7305-Treiber) arbeitet (kein natives partielles Refresh – jeder Frame ist ein Vollbild-Transfer)
 - Den Unterschied zwischen "billigen" Operationen (Zeitabfrage) und "teuren" Operationen (Display-Push) bewusst zu trennen, um Energieverbrauch gezielt zu optimieren
 - Umgang mit ESP32 Deep Sleep, RTC-Speicher (`RTC_DATA_ATTR`) und Wakeup-Ursachen
 - Sauberes Debugging von C++-Syntaxfehlern (fehlende Semikolons, Tippfehler in Zuweisungen vs. Vergleichen)
@@ -38,5 +40,5 @@ Das Projekt entstand aus dem Wunsch, ein energieeffizientes, always-on Info-Disp
 ## Bekannte Einschränkungen
 
 - Die Restlaufzeit-Schätzung basiert auf einem geschätzten Durchschnittsverbrauch, nicht auf einer echten Strommessung – die Genauigkeit ist entsprechend begrenzt
-- Kein natives partielles Display-Refresh möglich (Hardware-Limitierung des RLCD Displays)
+- Kein natives partielles Display-Refresh möglich (Hardware-Limitierung des RLCD)
 - WLAN-Zugangsdaten müssen lokal in `include/secrets.h` hinterlegt werden (nicht Teil des Repos, siehe `.gitignore`)
