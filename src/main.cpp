@@ -51,14 +51,13 @@ float v_bat = 0;
  
 // ---------------- TIME STRINGS ----------------
 char date_str[12] = "--.--.----";
-char time_str[9]  = "--:--:--";
+char time_str[9]  = "--:--";
 struct tm current_time;
  
 // ---------------- TIMERS ----------------
 unsigned long lastClockUpdate = 0;
 unsigned long lastSensorUpdate = 0;
 unsigned long lastWeatherUpdate = 0;
-int current_line_width = -1;
 int last_shown_minute = -1;    // -1 erzwingt ersten refresh
  
 // ---------------- ANIMATION ----------------
@@ -86,7 +85,7 @@ RTC_DATA_ATTR char rtc_condition[20] = "NO DATA";
 RTC_DATA_ATTR char rtc_wind_str[15] = "--";
  
 // Forward declaration
-void drawUI(bool full);
+void drawUI(bool full, bool showCircle = true);
 void updateWeather();
 void updateLocalTime();
  
@@ -137,7 +136,7 @@ uint64_t getSleepDurationToWakeup() {
 void updateLocalTime(){
   if(getLocalTime(&current_time)){
     strftime(date_str,sizeof(date_str),"%d.%m.%y",&current_time);
-    strftime(time_str,sizeof(time_str),"%H:%M:%S",&current_time);
+    strftime(time_str,sizeof(time_str),"%H:%M",&current_time);
   }
 }
  
@@ -343,14 +342,14 @@ void triggerStartAnimation() {
     canvas.setCursor(240, 220); canvas.print("HUM:");
     canvas.setCursor(240, 245); canvas.print("UVI:");
     canvas.setCursor(240, 270); canvas.print("BAT:");
-    canvas.setCursor(240,  55); canvas.print("BERLIN");
     canvas.setTextSize(1);
     canvas.setCursor(240, 20); canvas.print("WIFI:");
  
     drawAnimOrFinal(25,  20, 9, tempStr.c_str(),   160, 90, r);
     drawAnimOrFinal(282, 20, 1, ssidStr.c_str(),   118, 10, r);
-    drawAnimOrFinal(240, 80, 2, date_str,           160, 18, r);
-    drawAnimOrFinal(240,105, 2, time_str,           160, 18, r);
+    drawAnimOrFinal(240, 40, 3, time_str,           160, 24, r);
+    drawAnimOrFinal(240, 70, 2, date_str,           160, 18, r);
+    drawAnimOrFinal(240,105, 2, "BERLIN",           160, 18, r);
     drawAnimOrFinal(25, 105, 2, condStr.c_str(),    200, 18, r);
     drawAnimOrFinal(95, 195, 2, minmax,             150, 18, r);
     drawAnimOrFinal(95, 220, 2, hum_out,            100, 18, r);
@@ -384,7 +383,7 @@ void triggerStartAnimation() {
   drawUI(true);
 }
  
-void drawUI(bool full){
+void drawUI(bool full, bool showCircle){
  
   if(full){
     canvas.fillScreen(0);
@@ -409,8 +408,10 @@ void drawUI(bool full){
     }
  
     int grad_x = temp_end_x + offset;
-    canvas.fillCircle(grad_x, 28, 7, 1);
-    canvas.fillCircle(grad_x, 28, 4, 0);
+    if (showCircle) {
+      canvas.fillCircle(grad_x, 28, 7, 1);
+      canvas.fillCircle(grad_x, 28, 4, 0);
+    } 
  
     // WIFI
     canvas.setTextSize(1);
@@ -429,14 +430,7 @@ void drawUI(bool full){
     else           canvas.print("--");
  
     // Trennlinie
-    int max_width = W - 50;
-    if (current_line_width >= 0) {
-      int center_x = W / 2;
-      int anim_x = center_x - (current_line_width / 2);
-      canvas.fillRect(anim_x, 140, current_line_width, 1, 1);
-    } else {
-      canvas.fillRect(25, 140, max_width, 1, 1);
-    }
+    canvas.fillRect(25, 140, W - 50, 1, 1);
  
     // OUTDOOR
     canvas.setTextSize(2);
@@ -512,28 +506,21 @@ void drawUI(bool full){
   }
  
   // CITY + DATUM + UHRZEIT
+  // CITY + DATUM + UHRZEITc
   canvas.fillRect(240, 50, 160, 80, 0);
+
+  canvas.setTextSize(3);
+  canvas.setCursor(240, 40); canvas.print(time_str);
+
   canvas.setTextSize(2);
-  canvas.setCursor(240, 55); canvas.print("BERLIN");
-  canvas.setCursor(240, 80); canvas.print(date_str);
-  canvas.setCursor(240, 105); canvas.print(time_str);
- 
+  canvas.setCursor(240, 70); canvas.print(date_str);
+
+  canvas.setCursor(240, 105); canvas.print("BERLIN");
+  
   pushCanvasToRLCD(DARK_MODE);
 }
  
-// ===================================================
-void triggerLineAnimation() {
-  int max_width = W - 50;
-  for (int w = 0; w <= max_width; w += 35) {
-    current_line_width = w;
-    drawUI(true);
-    delay(10);
-  }
-  current_line_width = -1;
-  drawUI(true);
-}
- 
-// ===================================================
+
 // ===================================================
 void setup(){
   setCpuFrequencyMhz(80);
@@ -666,10 +653,12 @@ void loop(){
     }
   } else {
     // Normaler Tagesbetrieb (alle 15 Minuten)
-    if (now - lastWeatherUpdate > 900000) {
+    if (now - lastWeatherUpdate > 180000) {
       lastWeatherUpdate = now;
       updateWeather();
-      triggerLineAnimation();
+      drawUI(true, false);  // Frame ohne Kreis
+      delay(200);
+      drawUI(true, true);   // Frame mit neuem Kreis
     }
   }
 
