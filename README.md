@@ -2,6 +2,8 @@
 
 Ein ESP32-S3-basiertes Wetter- und Raumklima-Dashboard auf einem Waveshare 4.2" RLCD (Sharp Memory Display), das aktuelle Außenwetterdaten und Innenraum-Sensordaten anzeigt.
 
+![alt text](Main_screen.jpeg) ![alt text](Inverted_main_screen.jpeg) ![alt text](Backside with temp:humidity sensor.jpeg)
+
 ## Motivation
 
 Das Projekt entstand aus dem Wunsch, ein energieeffizientes, always-on Info-Display für den Schreibtisch zu bauen, das auf einen Blick Wetter, Uhrzeit und Raumklima zeigt – ohne Smartphone oder PC dafür aufwecken zu müssen. Das reflektive Sharp Memory Display wurde bewusst gewählt, da es (anders als OLED/LCD) auch bei direktem Licht gut lesbar ist und deutlich weniger Strom zieht.
