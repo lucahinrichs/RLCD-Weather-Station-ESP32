@@ -2,7 +2,7 @@
 
 Ein ESP32-S3-basiertes Wetter- und Raumklima-Dashboard auf einem Waveshare 4.2" RLCD (Sharp Memory Display), das aktuelle Außenwetterdaten und Innenraum-Sensordaten anzeigt.
 
-![alt text](Main_screen.jpeg) ![alt text](Inverted_main_screen.jpeg) ![alt text](Backside with temp:humidity_sensor.jpeg)
+![alt text](Main_screen.jpeg) ![alt text](Inverted_main_screen.jpeg) ![alt text](Backside_with_temp:humidity_sensor.jpeg)
 
 ## Motivation
 
