@@ -13,10 +13,10 @@ An ESP32-S3-based weather and room climate dashboard on a Waveshare 4.2" RLCD, s
   </tr>
   <tr>
     <td width="50%">
-      <img src="https://github.com/user-attachments/assets/71e9de9d-1daa-4eb2-9afc-94549a0581ed" alt="RLCD_side" style="width:100%;">
+      <img src="https://github.com/user-attachments/assets/795698fc-72f6-4059-9b73-83744536d530" alt="RLCD_back" style="width:100%;">
     </td>
     <td width="50%">
-      <img src="https://github.com/user-attachments/assets/795698fc-72f6-4059-9b73-83744536d530" alt="RLCD_back" style="width:100%;">
+      <img src="https://github.com/user-attachments/assets/71e9de9d-1daa-4eb2-9afc-94549a0581ed" alt="RLCD_side" style="width:100%;">
     </td>
   </tr>
 </table>
