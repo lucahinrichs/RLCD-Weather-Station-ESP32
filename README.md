@@ -2,7 +2,7 @@
 
 An ESP32-S3-based weather and room climate dashboard on a Waveshare 4.2" RLCD, showing current outdoor weather data and indoor sensor readings.
 
-![alt text](Main_screen.jpeg) ![alt text](Inverted_main_screen.jpeg) ![alt text](Backside_with_temp:humidity_sensor.jpeg)
+![alt text](Main_screen.jpeg) ![alt text](Inverted_main_screen.jpeg)
 
 
 ## Motivation
